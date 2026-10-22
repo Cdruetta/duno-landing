@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#2f5fe0"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#grad)"/>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2f5fe0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d3b90;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <text x="600" y="260" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">DUNO</text>
+  <text x="600" y="340" font-family="Arial, sans-serif" font-size="36" fill="rgba(255,255,255,0.9)" text-anchor="middle">Deudas Unificadas, Notificadas y Ordenadas</text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="28" fill="rgba(255,255,255,0.7)" text-anchor="middle">Sabé quién te debe, cuánto y a quién reclamarle hoy</text>
+  <text x="600" y="520" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.6)" text-anchor="middle">Gratis · Sin registro · 100% en tu navegador</text>
+</svg>

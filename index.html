@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DUNO: sabé a quién reclamarle hoy</title>
+<meta name="description" content="Panel gratis para emprendedores y freelancers: quién te debe, cuánto, desde cuándo y a quién reclamarle hoy. Sin cuenta, sin servidor, con recordatorio por WhatsApp.">
+<meta property="og:title" content="DUNO">
+<meta property="og:description" content="Sabé quién te debe, cuánto y a quién reclamarle hoy. Gratis, sin registro, 100% en tu navegador.">
+<meta property="og:image" content="https://duno-app.vercel.app/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- Crear og-image.svg (1200x630) con captura de la app y subirla a /public o al hosting -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2f5fe0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5fe0'/%3E%3Ctext x='16' y='23' font-family='Arial, sans-serif' font-size='19' font-weight='bold' fill='white' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#2f5fe0;--brand-dark:#2449b0;--brand-soft:#eaf0fe;--brand-softer:#f3f7ff;
+  --ink:#151a21;--ink-soft:#48515f;--ink-faint:#69727f;
+  --bg:#fff;--bg-muted:#f6f7f9;--line:#e3e7ee;
+  --ok:#1e7d44;--danger:#c9372c;--warn:#8a5a10;
+  --on-brand:#fff;
+  color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --brand:#6f95f5;--brand-dark:#8fadf8;--brand-soft:#1b2744;--brand-softer:#141c30;
+    --ink:#eef1f6;--ink-soft:#b4bcc9;--ink-faint:#8f98a6;
+    --bg:#0f1319;--bg-muted:#161b23;--line:#262d38;
+    --ok:#4cc27d;--danger:#f0786e;--warn:#e0b05a;
+    --on-brand:#0f1319;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --brand:#6f95f5;--brand-dark:#8fadf8;--brand-soft:#1b2744;--brand-softer:#141c30;
+  --ink:#eef1f6;--ink-soft:#b4bcc9;--ink-faint:#8f98a6;
+  --bg:#0f1319;--bg-muted:#161b23;--line:#262d38;
+  --ok:#4cc27d;--danger:#f0786e;--warn:#e0b05a;
+  --on-brand:#0f1319;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Barlow",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;line-height:1.05;margin:0;letter-spacing:.005em}
+h1{font-size:clamp(2.6rem,7.5vw,4.6rem)}
+h2{font-size:clamp(2rem,4.5vw,2.9rem)}
+h3{font-size:1.45rem;line-height:1.15}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500}
+
+header.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{display:flex;align-items:center;gap:10px;font:700 1.35rem "Barlow Condensed",sans-serif;text-decoration:none}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font:700 1.1rem "Barlow",sans-serif;font-style:normal}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:12px;font:600 1rem "Barlow",sans-serif;text-decoration:none;border:2px solid transparent;transition:background .15s,border-color .15s}
+.btn-primary{background:var(--brand);color:var(--on-brand)}
+.btn-primary:hover{background:var(--brand-dark)}
+.btn-ghost{border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--brand)}
+.btn-sm{min-height:40px;padding:0 16px;font-size:.95rem}
+
+.hero{display:grid;gap:40px;padding:36px 0 72px;align-items:center}
+@media(min-width:900px){.hero{grid-template-columns:1.1fr .9fr;gap:56px;padding:64px 0 96px}}
+.hero p.lead{font-size:1.2rem;color:var(--ink-soft);max-width:34em;margin-top:20px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.fine{font-size:.92rem;color:var(--ink-faint);margin-top:14px}
+
+/* Cola de ejemplo */
+.phone{background:var(--bg-muted);border:1px solid var(--line);border-radius:28px;padding:18px;max-width:400px;width:100%;margin:0 auto}
+.phone-head{display:flex;justify-content:space-between;align-items:baseline;padding:4px 6px 14px}
+.phone-head b{font:700 1.5rem "Barlow Condensed",sans-serif}
+.phone-head span{font-size:.85rem;color:var(--ink-faint)}
+.debt{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+.debt:first-of-type{border-color:var(--danger);box-shadow:inset 4px 0 0 var(--danger)}
+.debt .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.debt strong{font-weight:600}
+.debt small{color:var(--ink-faint);font-size:.88rem}
+.debt .amt{font-size:1.05rem}
+.late{font-size:.85rem;font-weight:600;color:var(--danger)}
+.late.mid{color:var(--warn)}
+.wa{display:inline-flex;align-items:center;min-height:36px;margin-top:10px;padding:0 14px;border-radius:10px;background:var(--brand-soft);color:var(--brand-dark);font-size:.9rem;font-weight:600}
+.example-note{text-align:center;font-size:.82rem;color:var(--ink-faint);margin-top:6px}
+
+section{padding:72px 0}
+section.alt{background:var(--bg-muted)}
+.sec-intro{max-width:36em;margin-bottom:40px}
+.sec-intro p{color:var(--ink-soft);margin-top:14px}
+
+.problem{display:grid;gap:36px}
+@media(min-width:800px){.problem{grid-template-columns:1fr 1fr;gap:56px}}
+.problem ul{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.problem li{padding-left:22px;position:relative;color:var(--ink-soft)}
+.problem li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--danger)}
+.problem .after li::before{background:var(--ok)}
+
+.feat{display:grid;gap:0;border-top:1px solid var(--line)}
+.feat article{display:grid;gap:8px;padding:28px 0;border-bottom:1px solid var(--line)}
+@media(min-width:800px){.feat article{grid-template-columns:320px 1fr;gap:40px;align-items:start}}
+.feat p{color:var(--ink-soft);max-width:38em}
+
+.steps{display:grid;gap:20px;counter-reset:s}
+@media(min-width:800px){.steps{grid-template-columns:repeat(3,1fr);gap:28px}}
+.steps li{list-style:none;counter-increment:s;border-top:3px solid var(--brand);padding-top:16px}
+.steps li::before{content:counter(s);font:700 2.4rem "Barlow Condensed",sans-serif;color:var(--brand);display:block;line-height:1}
+.steps h3{margin:8px 0}
+.steps p{color:var(--ink-soft)}
+.steps{padding:0;margin:0}
+
+.priv{background:var(--brand-softer);border:1px solid var(--line);border-radius:20px;padding:32px;display:grid;gap:12px}
+.priv p{color:var(--ink-soft);max-width:40em}
+
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font:600 1.1rem "Barlow",sans-serif;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--brand)}
+details[open] summary::after{content:"–"}
+details p{margin-top:10px;color:var(--ink-soft);max-width:42em}
+
+.final{text-align:center;padding:80px 0}
+.final p{color:var(--ink-soft);margin:14px auto 28px;max-width:30em}
+.final .cta-row{justify-content:center}
+
+footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--ink-faint);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#" aria-label="DUNO, inicio"><i aria-hidden="true">D</i>DUNO</a>
+    <a class="btn btn-primary btn-sm" href="https://duno-app.vercel.app">Abrir la app</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Sabé quién te debe y a quién reclamarle hoy.</h1>
+        <p class="lead">Un panel con tus deudas ordenadas por urgencia. Cargás las deudas, registrás los pagos parciales y la app te dice a quién escribirle primero.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://duno-app.vercel.app">Probar la app</a>
+          <a class="btn btn-ghost" href="#como-funciona">Ver cómo funciona</a>
+        </div>
+        <p class="fine">Gratis, sin registro y sin límite de clientes.</p>
+      </div>
+
+      <div>
+        <div class="phone" role="img" aria-label="Ejemplo de la cola Reclamar hoy con tres clientes ordenados por urgencia">
+          <div class="phone-head"><b>Reclamar hoy</b><span>3 pendientes</span></div>
+          <div class="debt">
+            <div class="row"><strong>Lucas Peralta</strong><span class="amt mono">$140.000</span></div>
+            <div class="row"><small>Armado de tienda online</small><span class="late">18 días de atraso</span></div>
+            <span class="wa">Recordar por WhatsApp</span>
+          </div>
+          <div class="debt">
+            <div class="row"><strong>Marcela Ibáñez</strong><span class="amt mono">$85.000</span></div>
+            <div class="row"><small>Diseño de logo · saldo</small><span class="late">21 días de atraso</span></div>
+          </div>
+          <div class="debt">
+            <div class="row"><strong>Aire Sur SRL</strong><span class="amt mono">$60.000</span></div>
+            <div class="row"><small>Mantenimiento mensual</small><span class="late mid">6 días de atraso</span></div>
+          </div>
+        </div>
+        <p class="example-note">Datos de ejemplo</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-intro">
+      <h2>Cobrar mejor empieza por saber qué te deben.</h2>
+    </div>
+    <div class="problem">
+      <div>
+        <h3>Hoy</h3>
+        <ul>
+          <li>Anotás deudas en una planilla o te acordás de memoria.</li>
+          <li>Los pagos parciales se pierden y el saldo nunca cierra.</li>
+          <li>No sabés a quién reclamarle primero ni desde cuándo debe.</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h3>Con DUNO</h3>
+        <ul>
+          <li>Todas las deudas en un solo panel.</li>
+          <li>El saldo se recalcula solo con cada pago.</li>
+          <li>Una cola ordenada por atraso y monto te marca por dónde empezar.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="funciones">
+  <div class="wrap">
+    <div class="sec-intro">
+      <h2>Lo justo para cobrar, sin vueltas.</h2>
+    </div>
+    <div class="feat">
+      <article>
+        <h3>Reclamar hoy, ordenado por urgencia</h3>
+        <p>La cola combina cuántos días de atraso tiene cada deuda y cuánta plata falta cobrar. Arriba aparece lo que más conviene reclamar. Ya no hay que adivinar.</p>
+      </article>
+      <article>
+        <h3>Saldo automático con pagos parciales</h3>
+        <p>Registrás cada pago a medida que te llega y el saldo se actualiza solo. Sin fórmulas ni errores de cuenta.</p>
+      </article>
+      <article>
+        <h3>Recordatorio por WhatsApp en un clic</h3>
+        <p>Se abre el chat con un mensaje listo: nombre, concepto, saldo y vencimiento. Lo editás antes de enviarlo. El teléfono se normaliza solo, con soporte para números de 36 países.</p>
+      </article>
+      <article>
+        <h3>Privado y sin cuenta</h3>
+        <p>Tus datos viven en tu navegador. No hay registro ni servidor, así que nadie más ve tus clientes. Cuando quieras, exportás o importás un backup en JSON.</p>
+      </article>
+      <article>
+        <h3>Se instala y funciona sin conexión</h3>
+        <p>Instalala en el celular como una app más. Anda sin internet y sincroniza entre pestañas del mismo dispositivo.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="como-funciona">
+  <div class="wrap">
+    <div class="sec-intro">
+      <h2>Cómo funciona</h2>
+      <p>Pensada para usarla desde el celular, todos los días o una vez por semana.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Cargá a tus clientes y sus deudas</h3><p>Concepto, monto, vencimiento y observaciones. Lo que necesites recordar.</p></li>
+      <li><h3>Registrá los pagos</h3><p>Si te pagan en efectivo o en cuotas, lo anotás y el saldo queda al día.</p></li>
+      <li><h3>Reclamá desde la cola</h3><p>Abrís “Reclamar hoy”, tocás el botón de WhatsApp y listo.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="priv">
+      <h2>Tus clientes son tuyos.</h2>
+      <p>DUNO no tiene servidor ni base de datos en la nube. Todo se guarda en tu dispositivo, por eso funciona sin cuenta y sin que nadie más tenga acceso a tu información. La contracara: si cambiás de celular, llevate el backup en JSON.</p>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-intro"><h2>Preguntas frecuentes</h2></div>
+    <details>
+      <summary>¿Cuánto cuesta?</summary>
+      <p>Nada. La app es gratis, sin límite de clientes ni de deudas.</p>
+    </details>
+    <details>
+      <summary>¿Necesito crear una cuenta?</summary>
+      <p>No. Abrís la app y empezás a cargar. No pedimos mail, teléfono ni contraseña.</p>
+    </details>
+    <details>
+      <summary>¿Dónde se guardan mis datos?</summary>
+      <p>Solo en el navegador de tu dispositivo. Para pasarlos a otro equipo, exportás el backup en JSON y lo importás en el nuevo.</p>
+    </details>
+    <details>
+      <summary>¿Funciona sin internet?</summary>
+      <p>Sí. Es una app instalable (PWA) y sigue andando sin conexión. Solo necesitás internet para abrir WhatsApp al enviar un recordatorio.</p>
+    </details>
+    <details>
+      <summary>¿En qué moneda trabaja?</summary>
+      <p>Por ahora, en pesos argentinos (ARS).</p>
+    </details>
+    <details>
+      <summary>¿Cómo la instalo en el celular?</summary>
+      <p>Abrila desde el navegador y elegí “Agregar a la pantalla de inicio” (o “Instalar app”). Queda con su ícono como cualquier otra app.</p>
+    </details>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Empezá a cobrar con orden.</h2>
+    <p>Cargá tu primera deuda en un minuto y mirá a quién te conviene reclamarle hoy.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://duno-app.vercel.app">Abrir la app</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>DUNO</span>
+    <span>Gratis · Sin registro · Tus datos quedan en tu dispositivo</span>
+  </div>
+</footer>
+</body>
+</html>
